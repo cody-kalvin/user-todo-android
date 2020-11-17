@@ -11,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom"
         android:paddingHorizontal="@dimen/padding"
         android:paddingTop="@dimen/padding"
         android:paddingBottom="@dimen/double_padding">
@@ -19,12 +20,24 @@
             android:id="@+id/text_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/half_margin"
             android:text="@{todo.description}"
-            android:textSize="@dimen/title_text_size"
+            android:textSize="@dimen/subtitle_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:todoStrike="@{todo.status}" />
+
+        <TextView
+            android:id="@+id/text_notify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_margin"
+            android:text="@{todo.notify + ` mins`}"
+            app:todoTime="@{todo.status}"
+            android:textSize="@dimen/subtitle_2_text_size"
+            app:layout_constraintEnd_toEndOf="@+id/text_description"
+            app:layout_constraintStart_toStartOf="@+id/text_description"
+            app:layout_constraintTop_toBottomOf="@+id/text_description" />
 
         <ImageView
             android:id="@+id/image_preview"
@@ -33,8 +46,10 @@
             android:layout_marginTop="@dimen/half_margin"
             android:contentDescription="@string/todo_preview"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/text_description"
-            app:layout_constraintTop_toBottomOf="@+id/text_description" />
+            app:layout_constraintStart_toStartOf="@+id/text_notify"
+            app:layout_constraintTop_toBottomOf="@+id/text_notify"
+            app:layout_constraintVertical_bias="0"
+            app:todoPreview="@{todo.preview}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
