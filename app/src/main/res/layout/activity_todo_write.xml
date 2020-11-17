@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cody.training.ui.todo.TodoWriteViewModel" />
+
+        <import type="com.cody.training.utils.BindingUtils" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_rounded_bottom"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/padding"
+                    android:paddingTop="@dimen/double_padding"
+                    android:paddingBottom="@dimen/padding">
+
+                    <EditText
+                        android:id="@+id/text_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="@string/todo_description"
+                        android:background="@null"
+                        android:hint="@string/add_task"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingVertical="@dimen/half_padding"
+                        android:text="@={viewModel.description}"
+                        android:textSize="@dimen/title_text_size" />
+
+                    <com.cody.training.custom.DismissibleImageView
+                        android:id="@+id/image_preview"
+                        android:layout_width="@dimen/large_icon_size"
+                        android:layout_height="@dimen/large_icon_size"
+                        android:layout_marginTop="@dimen/half_margin"
+                        android:contentDescription="@string/todo_preview"
+                        app:src="@={viewModel.preview}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_margin"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <com.cody.training.custom.CheckableImageView
+                            android:id="@+id/button_done"
+                            android:layout_width="@dimen/xs_icon_size"
+                            android:layout_height="@dimen/xs_icon_size"
+                            app:checked="@={BindingUtils.todoStatusToChecked(viewModel.status)}"/>
+
+                        <ImageButton
+                            android:id="@+id/button_photo"
+                            android:layout_width="@dimen/xs_icon_size"
+                            android:layout_height="@dimen/xs_icon_size"
+                            android:layout_marginStart="@dimen/margin"
+                            android:layout_marginLeft="@dimen/margin"
+                            android:background="@null"
+                            android:contentDescription="@string/add_photo"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_insert_photo" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin"
+                    android:background="@drawable/rectangle_rounded"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding">
+
+                    <TextView
+                        android:id="@+id/label_notify"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/label_notify"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/subtitle_text_size" />
+
+                    <RadioGroup
+                        android:id="@+id/toggle_notify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@={BindingUtils.todoNotifyToButtonId(viewModel.notify)}"
+                        android:orientation="horizontal"
+                        android:textOff="@string/add_task"
+                        android:textOn="@string/add_task"
+                        android:weightSum="2">
+
+                        <RadioButton
+                            android:id="@+id/radio_five_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/five_min" />
+
+                        <RadioButton
+                            android:id="@+id/radio_ten_min"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin"
+                            android:layout_marginLeft="@dimen/margin"
+                            android:layout_weight="1"
+                            android:text="@string/ten_min" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            android:background="@drawable/button_state"
+            android:enabled="@{viewModel.formValid}"
+            android:text="@string/action_save"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</layout>
