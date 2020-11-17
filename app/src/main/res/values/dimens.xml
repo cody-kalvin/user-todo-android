@@ -11,5 +11,7 @@
     <dimen name="large_icon_size">64dp</dimen>
     <dimen name="title_text_size">20sp</dimen>
     <dimen name="subtitle_text_size">16sp</dimen>
+    <dimen name="subtitle_2_text_size">14sp</dimen>
     <dimen name="bit_margin">2dp</dimen>
+    <dimen name="triple_padding">48dp</dimen>
 </resources>
