@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin">16dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+    <dimen name="double_padding">32dp</dimen>
+    <dimen name="small_icon_size">32dp</dimen>
+    <dimen name="xs_icon_size">24dp</dimen>
+    <dimen name="xxs_icon_size">16dp</dimen>
+    <dimen name="large_icon_size">64dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="subtitle_text_size">16sp</dimen>
+    <dimen name="bit_margin">2dp</dimen>
+</resources>
