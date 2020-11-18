@@ -33,11 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/half_margin"
             android:text="@{todo.notify + ` mins`}"
-            app:todoTime="@{todo.status}"
             android:textSize="@dimen/subtitle_2_text_size"
             app:layout_constraintEnd_toEndOf="@+id/text_description"
             app:layout_constraintStart_toStartOf="@+id/text_description"
-            app:layout_constraintTop_toBottomOf="@+id/text_description" />
+            app:layout_constraintTop_toBottomOf="@+id/text_description"
+            app:todoTime="@{todo.status}" />
 
         <ImageView
             android:id="@+id/image_preview"
@@ -46,7 +46,7 @@
             android:layout_marginTop="@dimen/half_margin"
             android:contentDescription="@string/todo_preview"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/text_notify"
+            app:layout_constraintStart_toStartOf="@+id/text_description"
             app:layout_constraintTop_toBottomOf="@+id/text_notify"
             app:layout_constraintVertical_bias="0"
             app:todoPreview="@{todo.preview}" />

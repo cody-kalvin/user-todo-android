@@ -10,7 +10,6 @@
         android:layout_marginTop="@dimen/bit_margin"
         android:layout_marginEnd="@dimen/bit_margin"
         android:src="@drawable/rectangle_rounded"
-        android:layout_marginRight="@dimen/bit_margin"
         android:contentDescription="@string/image_display" />
 
     <ImageButton

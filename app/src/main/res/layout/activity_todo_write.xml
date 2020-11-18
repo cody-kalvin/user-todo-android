@@ -80,7 +80,6 @@
                             android:layout_width="@dimen/xs_icon_size"
                             android:layout_height="@dimen/xs_icon_size"
                             android:layout_marginStart="@dimen/margin"
-                            android:layout_marginLeft="@dimen/margin"
                             android:background="@null"
                             android:contentDescription="@string/add_photo"
                             android:scaleType="fitCenter"
@@ -129,7 +128,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin"
-                            android:layout_marginLeft="@dimen/margin"
                             android:layout_weight="1"
                             android:text="@string/ten_min" />
                     </RadioGroup>
