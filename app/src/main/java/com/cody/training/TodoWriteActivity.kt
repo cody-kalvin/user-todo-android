@@ -17,6 +17,7 @@ import com.cody.training.model.Todo
 import com.cody.training.ui.todo.TodoWriteViewModel
 import com.cody.training.ui.todo.TodoWriteViewModelFactory
 import com.cody.training.utils.*
+import com.google.gson.Gson
 import org.apache.commons.io.IOUtils
 import java.io.*
 import java.time.LocalDateTime
@@ -35,7 +36,11 @@ class TodoWriteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val todo = intent.getParcelableExtra<Todo>("todo")
+        val todo = try {
+            Gson().fromJson(intent.getStringExtra("todo"), Todo::class.java)
+        } catch (e: Exception) {
+            null
+        }
 
         val factory = TodoWriteViewModelFactory(todo)
         viewModel = ViewModelProvider(this, factory).get(TodoWriteViewModel::class.java)

@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -47,7 +46,7 @@ class TodoListActivity : AppCompatActivity() {
 
         binding.buttonAdd.setOnClickListener {
             val intent = Intent(this, TodoWriteActivity::class.java).apply {
-                putExtra("todo", null as Parcelable?)
+                putExtra("todo", null as String?)
             }
             startActivity(intent)
         }

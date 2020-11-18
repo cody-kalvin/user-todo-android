@@ -7,6 +7,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.cody.training.model.Todo
 import com.cody.training.utils.sendNotification
+import com.google.gson.Gson
 
 class AlarmReceiver: BroadcastReceiver() {
 
@@ -16,7 +17,11 @@ class AlarmReceiver: BroadcastReceiver() {
             NotificationManager::class.java
         ) as NotificationManager
 
-        val todo = intent.extras!!.getParcelable<Todo>("todo")!!
-        notificationManager.sendNotification(todo, context)
+        val todo = try {
+            Gson().fromJson(intent.getStringExtra("todo"), Todo::class.java)
+        } catch (e: Exception) {
+            null
+        }
+        notificationManager.sendNotification(todo!!, context)
     }
 }

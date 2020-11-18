@@ -5,13 +5,17 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.cody.training.R
 import com.cody.training.TodoWriteActivity
 import com.cody.training.model.Todo
+import com.google.gson.Gson
 
 fun NotificationManager.sendNotification(todo: Todo, applicationContext: Context) {
     val notificationId = todo.id.hashCode()
+    Log.d("APP_DEBUG","$notificationId")
 
     val builder = NotificationCompat.Builder(
         applicationContext,
@@ -20,9 +24,11 @@ fun NotificationManager.sendNotification(todo: Todo, applicationContext: Context
         setSmallIcon(R.drawable.ic_list)
         setContentTitle(applicationContext.getString(R.string.notification_title))
         setContentText(todo.description)
+        color = ContextCompat.getColor(applicationContext, R.color.blue_700)
 
         val contentIntent = Intent(applicationContext, TodoWriteActivity::class.java).apply {
-            putExtra("todo", todo)
+            val json = Gson().toJson(todo)
+            putExtra("todo", json)
         }
         val contentPendingIntent = PendingIntent.getActivity(
             applicationContext,

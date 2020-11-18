@@ -14,6 +14,7 @@ import com.cody.training.model.Todo
 import com.cody.training.receiver.AlarmReceiver
 import com.cody.training.utils.NotificationRequestCode
 import com.cody.training.utils.cancelNotifications
+import com.google.gson.Gson
 
 class TodoAlarmViewModel(private val app: Application) : AndroidViewModel(app) {
 
@@ -31,7 +32,8 @@ class TodoAlarmViewModel(private val app: Application) : AndroidViewModel(app) {
             val triggerTime = SystemClock.elapsedRealtime() + todo.notify * 60
 
             val notifyIntent = Intent(app, AlarmReceiver::class.java).apply {
-                putExtra("todo", todo)
+                val json = Gson().toJson(todo)
+                putExtra("todo", json)
             }
 
             val notifyPendingIntent = PendingIntent.getBroadcast(
