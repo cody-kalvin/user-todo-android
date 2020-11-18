@@ -13,4 +13,7 @@
     <string name="add_photo">Add photo</string>
     <string name="image_display">Image display</string>
     <string name="action_dismiss">Dismiss</string>
+    <string name="notification_title">To do</string>
+    <string name="notification_channel_id">alarms</string>
+    <string name="notification_channel_name">Alarms</string>
 </resources>

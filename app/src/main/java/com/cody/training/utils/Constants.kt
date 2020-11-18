@@ -12,3 +12,7 @@ object PermissionRequestCode {
 object Path {
     const val FILE_PROVIDER = "com.cody.training.fileprovider"
 }
+
+object NotificationRequestCode {
+    const val TODO_ALARM = 1
+}

@@ -40,6 +40,11 @@
             android:name=".TodoWriteActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.cody.training.fileprovider"
