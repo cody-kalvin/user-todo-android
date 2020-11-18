@@ -19,4 +19,29 @@ open class Todo(
 
     @SerializedName("notify")
     var notify: Int = 0
-) : RealmObject()
+) : RealmObject() {
+    override fun equals(other: Any?): Boolean {
+        return if (this !== other) {
+            if (other is Todo) {
+                val copy: Todo = other
+                return this.id == copy.id
+                        && this.description == copy.description
+                        && this.status == copy.status
+                        && this.preview == copy.preview
+                        && this.notify == copy.notify
+            }
+            false
+        } else {
+            true
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + preview.hashCode()
+        result = 31 * result + notify
+        return result
+    }
+}
