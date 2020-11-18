@@ -9,10 +9,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.cody.training.GlideApp
 import com.cody.training.R
 
 class DismissibleImageView constructor(
@@ -28,7 +28,7 @@ class DismissibleImageView constructor(
         set(value) {
             field = value
 
-            Glide
+            GlideApp
                 .with(context)
                 .applyDefaultRequestOptions(
                     RequestOptions()

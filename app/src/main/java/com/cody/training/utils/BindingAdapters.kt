@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.cody.training.GlideApp
 import com.cody.training.R
 
 @BindingAdapter("todoStrike")
@@ -46,7 +46,7 @@ fun TextView.setTodoTime(status: String) {
 fun ImageView.setTodoPreview(preview: String?) {
     visibility = if (preview != null) VISIBLE else GONE
 
-    Glide
+    GlideApp
         .with(context)
         .load(preview)
         .transform(CenterCrop(), RoundedCorners(8))
