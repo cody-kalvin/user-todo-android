@@ -25,18 +25,29 @@ class DismissibleImageView constructor(
     private val buttonDismiss: ImageButton
 
     var src: String? = null
+        set(value) {
+            field = value
+
+            Glide
+                .with(context)
+                .applyDefaultRequestOptions(
+                    RequestOptions()
+                        .placeholder(R.drawable.ic_insert_photo)
+                        .error(R.drawable.ic_insert_photo)
+                )
+                .load(value)
+                .transform(CenterCrop(), RoundedCorners(8))
+                .into(imageDisplay)
+
+            visibility = if (value != null) VISIBLE else GONE
+        }
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val root = inflater.inflate(R.layout.view_dismissible_imageview, this, true)
-
         imageDisplay = root.findViewById(R.id.image_display)
-
-        buttonDismiss = root.findViewById<ImageButton>(R.id.button_dismiss).apply {
-            setOnClickListener {
-                setSrc(this@DismissibleImageView, null)
-            }
-        }
+        buttonDismiss = root.findViewById(R.id.button_dismiss)
+        src = null // custom setter not called on initialize
     }
 
     companion object {
@@ -45,19 +56,6 @@ class DismissibleImageView constructor(
         fun setSrc(view: DismissibleImageView, newValue: String?) {
             if (view.src != newValue) {
                 view.src = newValue
-
-                Glide
-                    .with(view.context)
-                    .applyDefaultRequestOptions(
-                        RequestOptions()
-                            .placeholder(R.drawable.ic_insert_photo)
-                            .error(R.drawable.ic_insert_photo)
-                    )
-                    .load(view.src)
-                    .transform(CenterCrop(), RoundedCorners(8))
-                    .into(view.imageDisplay)
-
-                view.visibility = if (view.src != null) VISIBLE else GONE
             }
         }
 
@@ -70,19 +68,9 @@ class DismissibleImageView constructor(
         @BindingAdapter("app:srcAttrChanged")
         @JvmStatic
         fun setListeners(view: DismissibleImageView, listener: InverseBindingListener?) {
-            if (listener != null && !view.isInEditMode) {
-                Glide
-                    .with(view.context)
-                    .applyDefaultRequestOptions(
-                        RequestOptions()
-                            .placeholder(R.drawable.ic_insert_photo)
-                            .error(R.drawable.ic_insert_photo)
-                    )
-                    .load(view.src)
-                    .transform(CenterCrop(), RoundedCorners(8))
-                    .into(view.imageDisplay)
-
-                view.visibility = if (view.src != null) VISIBLE else GONE
+            view.buttonDismiss.setOnClickListener {
+                view.src = null
+                listener?.onChange()
             }
         }
     }

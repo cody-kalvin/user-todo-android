@@ -17,15 +17,22 @@ class CheckableImageView constructor(
 
     private val imageDisplay: ImageView
 
-    var checked: Boolean = false
+    private var checked: Boolean = false
+        set(value) {
+            field = value
+
+            val resource = if (value) {
+                R.drawable.ic_checkbox_checked
+            } else {
+                R.drawable.ic_checkbox_unchecked
+            }
+            imageDisplay.setImageResource(resource)
+        }
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val root = inflater.inflate(R.layout.view_checkable_imageview, this, true)
         imageDisplay = root.findViewById(R.id.image_display)
-        imageDisplay.setOnClickListener {
-            setChecked(this@CheckableImageView, !checked)
-        }
     }
 
     companion object {
@@ -34,13 +41,6 @@ class CheckableImageView constructor(
         fun setChecked(view: CheckableImageView, newValue: Boolean) {
             if (view.checked != newValue) {
                 view.checked = newValue
-
-                val resource = if (view.checked) {
-                    R.drawable.ic_checkbox_checked
-                } else {
-                    R.drawable.ic_checkbox_unchecked
-                }
-                view.imageDisplay.setImageResource(resource)
             }
         }
 
@@ -53,13 +53,10 @@ class CheckableImageView constructor(
         @BindingAdapter("app:checkedAttrChanged")
         @JvmStatic
         fun setListeners(view: CheckableImageView, listener: InverseBindingListener?) {
-            if (listener != null && !view.isInEditMode) {
-                val resource = if (view.checked) {
-                    R.drawable.ic_checkbox_checked
-                } else {
-                    R.drawable.ic_checkbox_unchecked
-                }
-                view.imageDisplay.setImageResource(resource)
+            view.setOnClickListener {
+                val checkableImageView = it as CheckableImageView
+                checkableImageView.checked = !checkableImageView.checked
+                listener?.onChange()
             }
         }
     }
