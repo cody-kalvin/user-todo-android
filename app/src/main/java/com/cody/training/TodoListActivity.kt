@@ -13,25 +13,16 @@ import com.cody.training.ui.todo.TodoListViewModel
 
 class TodoListActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: TodoListViewModel
+
+    private val viewManager = LinearLayoutManager(this)
+
+    private val viewAdapter = TodoListAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewManager = LinearLayoutManager(this)
-
-        val viewAdapter = TodoListAdapter()
-
-        val viewModel = ViewModelProvider(this).get(TodoListViewModel::class.java)
-
-        viewModel.fetchResult.observe(this@TodoListActivity) { results ->
-            if (results.size == 0) {
-                viewAdapter.submitList(listOf(TodoListAdapter.TodoListItem.Empty))
-            } else {
-                val list = results.subList(0, results.size).map { todo ->
-                    TodoListAdapter.TodoListItem.Body(todo)
-                }
-                viewAdapter.submitList(list)
-            }
-        }
+        viewModel = ViewModelProvider(this).get(TodoListViewModel::class.java)
 
         val binding = DataBindingUtil.setContentView<ActivityTodoListBinding>(
             this,
@@ -52,6 +43,20 @@ class TodoListActivity : AppCompatActivity() {
                 putExtra("todo", null as Parcelable?)
             }
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val todos = viewModel.fetch()
+        if (todos.isEmpty()) {
+            viewAdapter.submitList(listOf(TodoListAdapter.TodoListItem.Empty))
+        } else {
+            val list = todos.map { todo ->
+                TodoListAdapter.TodoListItem.Body(todo)
+            }
+            viewAdapter.submitList(list)
         }
     }
 }
