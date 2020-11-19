@@ -6,10 +6,8 @@
     <string name="five_min">5 min</string>
     <string name="ten_min">10 min</string>
     <string name="action_save">Save</string>
-    <string name="todo_status">Todo status</string>
     <string name="todo_preview">Todo preview</string>
     <string name="todo_description">Todo description</string>
-    <string name="add_status">Add status</string>
     <string name="add_photo">Add photo</string>
     <string name="image_display">Image display</string>
     <string name="action_dismiss">Dismiss</string>
