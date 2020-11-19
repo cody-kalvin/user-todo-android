@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.cody.training.R
@@ -14,8 +13,7 @@ import com.cody.training.model.Todo
 import com.google.gson.Gson
 
 fun NotificationManager.sendNotification(todo: Todo, applicationContext: Context) {
-    val notificationId = todo.id.hashCode()
-    Log.d("APP_DEBUG","$notificationId")
+    val notificationId = todo.hashCode()
 
     val builder = NotificationCompat.Builder(
         applicationContext,

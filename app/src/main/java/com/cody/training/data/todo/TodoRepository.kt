@@ -24,7 +24,11 @@ class TodoRepository(private val realm: Realm) {
         }
     }
 
-    fun fetch(): RealmResults<Todo> {
-        return realm.where(Todo::class.java).findAllAsync()
+    fun fetchActive(): RealmResults<Todo> {
+        return realm.where(Todo::class.java).notEqualTo("status", "deleted").findAllAsync()
+    }
+
+    fun fetchPending(): RealmResults<Todo> {
+        return realm.where(Todo::class.java).equalTo("status", "pending").findAllAsync()
     }
 }

@@ -57,10 +57,13 @@ class TodoListAdapter(
         private val binding: ListItemTodoBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        lateinit var todo: Todo
+
         fun bind(item: TodoListItem.Body, clickListener: OnItemClickListener) {
-            binding.todo = item.todo
+            todo = item.todo
+            binding.todo = todo
             binding.root.setOnClickListener {
-                clickListener.onItemClick(item.todo)
+                clickListener.onItemClick(todo)
             }
             binding.executePendingBindings()
         }

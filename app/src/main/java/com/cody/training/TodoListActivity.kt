@@ -9,13 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cody.training.databinding.ActivityTodoListBinding
 import com.cody.training.model.Todo
 import com.cody.training.ui.todo.TodoAlarmViewModel
 import com.cody.training.ui.todo.TodoListAdapter
 import com.cody.training.ui.todo.TodoListViewModel
+import com.cody.training.utils.showConfirmation
 import com.google.gson.Gson
+
 
 class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListener {
 
@@ -46,6 +51,41 @@ class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListene
             adapter = listAdapter
         }
 
+        val touchCallback = object : SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (viewHolder is TodoListAdapter.TodoViewHolder) {
+                    val activity = this@TodoListActivity
+                    val todo = viewHolder.todo
+                    val oldStatus = todo.status
+
+                    listViewModel.delete(todo)
+
+                    showConfirmation(
+                        activity,
+                        "Are you sure you want to delete ${todo.description}",
+                        {
+                            populateList()
+                        },
+                        {
+                            listViewModel.retrieve(todo, oldStatus)
+                            populateList()
+                        }
+                    )
+                }
+
+            }
+        }
+        val touchHelper = ItemTouchHelper(touchCallback)
+        touchHelper.attachToRecyclerView(binding.listTodo)
+
         binding.buttonAdd.setOnClickListener {
             val intent = Intent(this, TodoWriteActivity::class.java).apply {
                 putExtra("todo", null as String?)
@@ -61,18 +101,16 @@ class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListene
 
     override fun onResume() {
         super.onResume()
+        populateList()
+        sendNotifications()
+    }
 
-        val todos = listViewModel.fetch()
-        if (todos.isEmpty()) {
-            listAdapter.submitList(listOf(TodoListAdapter.TodoListItem.Empty))
-        } else {
-            val list = todos.map { todo ->
-                TodoListAdapter.TodoListItem.Body(todo)
-            }
-            listAdapter.submitList(list)
+    override fun onItemClick(todo: Todo) {
+        val intent = Intent(this, TodoWriteActivity::class.java).apply {
+            val json = Gson().toJson(todo)
+            putExtra("todo", json)
         }
-
-        alarmViewModel.startTimer(todos)
+        startActivity(intent)
     }
 
     private fun createChannel(channelId: String, channelName: String) {
@@ -95,11 +133,20 @@ class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListene
         }
     }
 
-    override fun onItemClick(todo: Todo) {
-        val intent = Intent(this, TodoWriteActivity::class.java).apply {
-            val json = Gson().toJson(todo)
-            putExtra("todo", json)
+    private fun populateList() {
+        val todos = listViewModel.fetchActive()
+        if (todos.isEmpty()) {
+            listAdapter.submitList(listOf(TodoListAdapter.TodoListItem.Empty))
+        } else {
+            val list = todos.map { todo ->
+                TodoListAdapter.TodoListItem.Body(todo)
+            }
+            listAdapter.submitList(list)
         }
-        startActivity(intent)
+    }
+
+    private fun sendNotifications() {
+        val pending = listViewModel.fetchPending()
+        alarmViewModel.startTimer(pending)
     }
 }
