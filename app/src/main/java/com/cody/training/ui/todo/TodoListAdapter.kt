@@ -8,15 +8,21 @@ import com.cody.training.databinding.ListItemEmptyBinding
 import com.cody.training.databinding.ListItemTodoBinding
 import com.cody.training.model.Todo
 
-class TodoListAdapter :
+class TodoListAdapter(
+   private val clickListener: OnItemClickListener
+) :
     ListAdapter<TodoListAdapter.TodoListItem, RecyclerView.ViewHolder>(TodoDiffCallback()) {
+
+    interface OnItemClickListener {
+        fun onItemClick(todo: Todo)
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         if (item is TodoListItem.Empty) {
             (holder as EmptyViewHolder).bind("Nothing to do.")
         } else if (item is TodoListItem.Body) {
-            (holder as TodoViewHolder).bind(item)
+            (holder as TodoViewHolder).bind(item, clickListener)
         }
     }
 
@@ -48,11 +54,14 @@ class TodoListAdapter :
     }
 
     class TodoViewHolder private constructor(
-        private val binding: ListItemTodoBinding
+        private val binding: ListItemTodoBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: TodoListItem.Body) {
+        fun bind(item: TodoListItem.Body, clickListener: OnItemClickListener) {
             binding.todo = item.todo
+            binding.root.setOnClickListener {
+                clickListener.onItemClick(item.todo)
+            }
             binding.executePendingBindings()
         }
 

@@ -11,15 +11,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cody.training.databinding.ActivityTodoListBinding
+import com.cody.training.model.Todo
 import com.cody.training.ui.todo.TodoAlarmViewModel
 import com.cody.training.ui.todo.TodoListAdapter
 import com.cody.training.ui.todo.TodoListViewModel
+import com.google.gson.Gson
 
-class TodoListActivity : AppCompatActivity() {
+class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListener {
 
     private lateinit var listViewModel: TodoListViewModel
 
-    private val listAdapter = TodoListAdapter()
+    private val listAdapter = TodoListAdapter(this)
 
     private lateinit var alarmViewModel: TodoAlarmViewModel
 
@@ -91,5 +93,13 @@ class TodoListActivity : AppCompatActivity() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(notificationChannel)
         }
+    }
+
+    override fun onItemClick(todo: Todo) {
+        val intent = Intent(this, TodoWriteActivity::class.java).apply {
+            val json = Gson().toJson(todo)
+            putExtra("todo", json)
+        }
+        startActivity(intent)
     }
 }
