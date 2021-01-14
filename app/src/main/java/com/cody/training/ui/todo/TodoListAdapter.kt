@@ -9,9 +9,8 @@ import com.cody.training.databinding.ListItemTodoBinding
 import com.cody.training.model.Todo
 
 class TodoListAdapter(
-   private val clickListener: OnItemClickListener
-) :
-    ListAdapter<TodoListAdapter.TodoListItem, RecyclerView.ViewHolder>(TodoDiffCallback()) {
+    private val clickListener: OnItemClickListener
+) : ListAdapter<TodoListAdapter.TodoListItem, RecyclerView.ViewHolder>(TodoDiffCallback()) {
 
     interface OnItemClickListener {
         fun onItemClick(todo: Todo)
