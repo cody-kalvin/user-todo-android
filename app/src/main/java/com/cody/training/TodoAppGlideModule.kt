@@ -10,6 +10,7 @@ import com.bumptech.glide.signature.ObjectKey
 
 @GlideModule
 class TodoAppGlideModule : AppGlideModule() {
+
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         super.applyOptions(context, builder)
         builder.apply {

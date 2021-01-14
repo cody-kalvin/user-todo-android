@@ -21,7 +21,6 @@ import com.cody.training.ui.todo.TodoListViewModel
 import com.cody.training.utils.showConfirmation
 import com.google.gson.Gson
 
-
 class TodoListActivity : AppCompatActivity(), TodoListAdapter.OnItemClickListener {
 
     private lateinit var listViewModel: TodoListViewModel
